@@ -3,8 +3,8 @@
 <section id="main-content">
     <section class="wrapper">
 
-        <div style="min-height: 300px">
-            <div class="col-md-4 mb">
+        <div style="min-height: 300px;">
+            <div class="col-md-4 mb" style="background-color:gray; text-align: center;">
                 <!-- WHITE PANEL - TOP USER -->
                 <div class="white-panel pn">
                     <div class="white-header">
