@@ -20,6 +20,11 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+
+	<!-- <link rel="stylesheet" type="text/css" href="<?= ASSETS . THEME ?>admin/css/zabuto_calendar.css">
+	<link rel="stylesheet" type="text/css" href="<?= ASSETS . THEME ?>admin/js/gritter/css/jquery.gritter.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ASSETS . THEME ?>admin/lineicons/style.css"> -->
+
 	<link rel="shortcut icon" href="<?= ASSETS . THEME ?>/images/ico/favicon.ico">
 	<link rel="apple-touch-icon-precomposed" sizes="144x144"
 		href="<?= ASSETS . THEME ?>/images/ico/apple-touch-icon-144-precomposed.png">
@@ -27,10 +32,12 @@
 		href="<?= ASSETS . THEME ?>/images/ico/apple-touch-icon-114-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72"
 		href="<?= ASSETS . THEME ?>/images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="<?= ASSETS . THEME ?>/images/ico/apple-touch-icon-57-precomposed.png">
+	<link rel="apple-touch-icon-precomposed"
+		href="<?= ASSETS . THEME ?>/images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
+
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -40,6 +47,11 @@
 							<ul class="nav nav-pills">
 								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
 								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<?php if (isset($data['user_data'])): ?>
+									<li><a href="#"><i class="fa fa-user"></i>
+											<?= $data["user_data"]->name ?>
+										</a></li>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</div>
@@ -94,11 +106,17 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+								<?php if (isset($data['user_data']) && $data['user_data']->rank == 'admin'): ?>
+									<li><a href="<?= ROOT ?>profile"><i class="fa fa-user"></i> Account</a></li>
+								<?php endif; ?>
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login"><i class="fa fa-lock"></i> Login</a></li>
+								<?php if (isset($data['user_data'])): ?>
+									<li><a href="logout"><i class="fa fa-lock"></i> Logout</a></li>
+								<?php else: ?>
+									<li><a href="login"><i class="fa fa-lock"></i>Login</a></li>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</div>
