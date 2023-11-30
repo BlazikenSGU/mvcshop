@@ -1,6 +1,4 @@
 <?php
-
-
 //this is connect class database
 class Database
 {

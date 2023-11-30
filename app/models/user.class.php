@@ -124,23 +124,45 @@ class User
         return $text;
     }
 
-    public function check_login($redirect = false)
+    public function check_login($redirect = false, $allowed = array())
     {
-        if (isset($_SESSION["user_url"])) {
+
+        $db = Database::getInstance();
+
+        if (count($allowed) > 0) {
             $arr['url'] = $_SESSION['user_url'];
             $query = "select * from users where url_address = :url limit 1";
-            $db = Database::getInstance();
-
             $result = $db->read($query, $arr);
             if (is_array($result)) {
-                return $result[0];
+                $result = $result[0];
+                if (in_array($result->rank, $allowed)) {
+                    return $result;
+                }
+
+            }
+            header("Location: " . ROOT . "login");
+            die;
+
+
+        } else {
+            if (isset($_SESSION["user_url"])) {
+                $arr = false;
+                $arr['url'] = $_SESSION['user_url'];
+                $query = "select * from users where url_address = :url limit 1";
+
+
+                $result = $db->read($query, $arr);
+                if (is_array($result)) {
+                    return $result[0];
+                }
+            }
+
+            if ($redirect) {
+                header("Location: " . ROOT . "login");
+                die;
             }
         }
 
-        if ($redirect) {
-            header("Location: " . ROOT . "login");
-            die;
-        }
         return false;
     }
 
