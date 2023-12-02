@@ -29,7 +29,6 @@
                     danh muc</button>
                 <div class="add_new hide">
 
-
                     <h4 class="mb"><i class="fa fa-angle-right"></i> Them danh muc</h4>
                     <form class="form-horizontal style-form" method="post">
                         <div class="form-group">
@@ -46,7 +45,6 @@
                     <br>
                     <br>
 
-
                 </div>
 
                 <hr>
@@ -59,31 +57,24 @@
                     </tr>
                 </thead>
                 <tbody id="table_body">
-                    <tr>
-                        <td><a href="basic_table.html#">Dong ho</a></td>
-                        <td><span class="label label-info label-mini">Enable</span></td>
-                        <td>
-                            <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                            <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                        </td>
-                    </tr>
+                    <?php
 
+                    echo $data['table_rows'];
 
-
-
+                    ?>
                 </tbody>
             </table>
         </div><!-- /content-panel -->
     </div><!-- /col-md-12 -->
 </div><!-- /row -->
-
 </section>
 
 <script type="text/javascript">
+
     function show_add_new() {
         var show_add_box = document.querySelector(".add_new");
-        var category_input = document.querySelector('#category');
+        var category_input = document.querySelector("#category");
+
         if (show_add_box.classList.contains('hide')) {
             show_add_box.classList.remove('hide');
             category_input.focus();
@@ -96,9 +87,10 @@
     function collect_data(e) {
         var category_input = document.querySelector("#category");
         if (category_input.value.trim() == "" || !isNaN(category_input.value.trim())) {
-            alert("vui long nhap du lieu");
+            // alert("vui long nhap du lieu");
         }
-        var data = category_input.value.trim()
+
+        var data = category_input.value.trim();
         send_data({
             data: data,
             data_type: 'add_category'
@@ -108,8 +100,6 @@
     function send_data(data = {}) {
 
         var ajax = new XMLHttpRequest();
-        // var form = new FormData();
-        // form.append('data', data);
 
         ajax.addEventListener('readystatechange', function () {
             if (ajax.readyState == 4 && ajax.status == 200) {
@@ -117,11 +107,13 @@
             }
         })
 
-        ajax.open('POST', '<?= ROOT ?>ajax', true);
+        ajax.open("POST", "<?= ROOT ?>ajax", true);
         ajax.send(JSON.stringify(data));
     }
 
     function handle_result(result) {
+
+        console.log(result);
         if (result != "") {
             var obj = JSON.parse(result);
 
@@ -130,22 +122,22 @@
                     alert(obj.message);
                     show_add_new();
 
-                    var table = document.querySelector('#table_body');
+                    var table_body = document.querySelector('#table_body');
                     table_body.innerHTML = obj.data;
-
 
                 } else {
                     alert(obj.message);
                 }
             }
-
         }
+    }
 
+    function edit_row(e){
+        var id =  e.target.parentNode.getAttribute("rowid");
+        alert(id);
     }
 
 
 </script>
-
-
 
 <?php $this->view("admin/footer", $data) ?>

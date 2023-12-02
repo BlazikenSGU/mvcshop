@@ -28,9 +28,9 @@
   <script>
       //custom select box
 
-      $(function(){
-          $('select.styled').customSelect();
-      });
+    //   $(function(){
+    //       $('select.styled').customSelect();
+    //   });
 
   </script>
 

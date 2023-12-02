@@ -19,9 +19,19 @@ class Admin extends Controller
     {
         $User = $this->load_model("User");
         $user_data = $User->check_login(true, ["admin"]);
-
         if (is_object($user_data)) {
             $data["user_data"] = $user_data;
+        }
+
+        //show danh muc category
+        $db = Database::newInstance();
+        $categories = $db->read("select * from categories order by id desc");
+
+        $category = $this->load_model("Category");
+        $table_rows = $category->make_table($categories);
+
+        if (is_array($categories)) {
+            $data["table_rows"] = $table_rows;
         }
 
         $data["page_title"] = "Admin";
