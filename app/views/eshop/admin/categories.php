@@ -51,7 +51,6 @@
                 <thead>
                     <tr>
                         <th><i class="fa fa-bullhorn"></i> Category</th>
-
                         <th><i class=" fa fa-edit"></i> Status</th>
                         <th><i class=" fa fa-edit"></i> Action</th>
                     </tr>
@@ -113,28 +112,60 @@
 
     function handle_result(result) {
 
-        console.log(result);
+      
+
         if (result != "") {
             var obj = JSON.parse(result);
 
-            if (typeof obj.message_type != 'undefined') {
-                if (obj.message_type == "info") {
-                    alert(obj.message);
-                    show_add_new();
+            if (typeof obj.data_type != 'undefined') {
 
+                if (obj.data_type == "add_new") {
+                    if (obj.message_type == "info") {
+                        alert(obj.message);
+                        show_add_new();
+
+                        var table_body = document.querySelector('#table_body');
+                        table_body.innerHTML = obj.data;
+
+                    } else {
+                        alert(obj.message);
+                    }
+                } else if (obj.data_type == "disable_row") {
                     var table_body = document.querySelector('#table_body');
                     table_body.innerHTML = obj.data;
-
-                } else {
+                } else if (obj.data_type == "delete_row") {
                     alert(obj.message);
                 }
+
             }
         }
     }
 
-    function edit_row(e){
-        var id =  e.target.parentNode.getAttribute("rowid");
-        alert(id);
+    function edit_row(id) {
+
+        send_data({
+            data_type: ""
+        });
+    }
+
+    function delete_row(id) {
+
+        if (!confirm("ban that su muon xoa dong nay ?")) {
+            return;
+        }
+
+        send_data({
+            data_type: "delete_row",
+            id: id
+        });
+    }
+
+    function disable_row(id, state) {
+        send_data({
+            data_type: "disable_row",
+            id: id,
+            current_state: state
+        });
     }
 
 

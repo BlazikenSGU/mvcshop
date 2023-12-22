@@ -42,19 +42,23 @@ class Category
     public function make_table($cats)
     {
         $result = "";
+        
         if (is_array($cats)) {
             foreach ($cats as $cat_row) {
                 //code
-                $cat_row->disable = $cat_row->disable ? "Disable" : "Enable";
+                $color = $cat_row->disabled ? "#ae7c04" : "#5bc0de";
+                $cat_row->disabled = $cat_row->disabled ? "Disabled" : "Enabled";
+                
+                $args = $cat_row->id . ",'" . $cat_row->disabled . "'";
 
                 $result .= "<tr>";
 
                 $result .= '
                         <td><a href="basic_table.html#">' . $cat_row->category . '</a></td>
-                        <td><span class="label label-info label-mini">' . $cat_row->disable . '</span></td>
+                        <td><span onclick="disable_row(' . $args . ')"  class="label label-info label-mini" style="cursor:pointer; background-color: ' . $color . ';">' . $cat_row->disabled . '</span></td>
                         <td>
-                            <button rowid="' . $cat_row->id . '" onclick="edit_row(event)" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                            <button rowid="' . $cat_row->id . '" onclick="delete_row(event)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                            <button onclick="edit_row(' . $cat_row->id . ')" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                            <button onclick="delete_row(' . $cat_row->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
                         </td>
                         ';
 

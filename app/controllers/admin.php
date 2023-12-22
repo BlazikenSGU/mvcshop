@@ -17,10 +17,10 @@ class Admin extends Controller
 
     public function categories()
     {
-        $User = $this->load_model("User");
+        $User = $this->load_model('User');
         $user_data = $User->check_login(true, ["admin"]);
         if (is_object($user_data)) {
-            $data["user_data"] = $user_data;
+            $data['user_data'] = $user_data;
         }
 
         //show danh muc category
