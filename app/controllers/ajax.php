@@ -20,18 +20,22 @@ class Ajax extends Controller
                 if ($_SESSION['error'] != "") {
 
                     $arr['message'] = $_SESSION['error'];
+
                     $_SESSION['error'] = "";
                     $arr['message_type'] = "error";
                     $arr['data'] = "";
                     $arr['data_type'] = "add_new";
 
                     echo json_encode($arr);
+
                 } else {
 
                     $arr['message'] = "them thanh cong";
                     $arr['message_type'] = "info";
+
                     $cats = $category->get_all();
                     $arr['data'] = $category->make_table($cats);
+
                     $arr['data_type'] = "add_new";
 
                     echo json_encode($arr);
@@ -54,12 +58,31 @@ class Ajax extends Controller
 
                 echo json_encode($arr);
 
+            } else if ($data->data_type == 'edit_category') {
+
+                $category->edit($data->id, $data->category);
+
+                $arr['message'] = "Chinh sua thanh cong";
+                $_SESSION['error'] = "";
+                $arr['message_type'] = "info";
+
+                $cats = $category->get_all();
+                $arr['data'] = $category->make_table($cats);
+
+                $arr['data_type'] = "edit_category";
+
+                echo json_encode($arr);
             } else if ($data->data_type == 'delete_row') {
+
+                $category->delete($data->id);
 
                 $arr['message'] = "Xoa thanh cong";
                 $_SESSION['error'] = "";
                 $arr['message_type'] = "info";
-                $arr['data'] = "";
+
+                $cats = $category->get_all();
+                $arr['data'] = $category->make_table($cats);
+
                 $arr['data_type'] = "delete_row";
 
                 echo json_encode($arr);

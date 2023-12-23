@@ -8,7 +8,15 @@
         background-color: #cecccc;
         position: absolute;
         padding: 6px;
-        /* box-shadow: 0px 0px 10px #aaa; */
+    }
+
+    .edit_category {
+        width: 500px;
+        height: 300px;
+        background-color: #cecccc;
+        position: absolute;
+        padding: 6px;
+
     }
 
     .show {
@@ -27,6 +35,7 @@
                 <h4><i class="fa fa-angle-right"></i> Danh muc san pham </h4>
                 <button class="btn btn-primary btn-xs" onclick="show_add_new(event)"><i class="fa fa-plus"></i> Them
                     danh muc</button>
+
                 <div class="add_new hide">
 
                     <h4 class="mb"><i class="fa fa-angle-right"></i> Them danh muc</h4>
@@ -46,8 +55,31 @@
                     <br>
 
                 </div>
+                <!-- edit category -->
+                <div class="edit_category hide">
+
+                    <h4 class="mb"><i class="fa fa-angle-right"></i> Edit danh muc</h4>
+                    <form class="form-horizontal style-form" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Ten danh muc</label>
+                            <div class="col-sm-10">
+                                <input id="category_edit" name="category" type="text" class="form-control" autofocus>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning" onclick="show_edit_category(0,'', event)"
+                            style="position: absolute; bottom: 20px; left: 20px;">Cancel</button>
+                        <button class="btn btn-primary" onclick="collect_edit_data(event)"
+                            style="position: absolute; bottom: 20px; right: 20px;">Luu</button>
+                    </form>
+                    <br>
+                    <br>
+
+                </div>
+                <!-- end edit -->
+
 
                 <hr>
+
                 <thead>
                     <tr>
                         <th><i class="fa fa-bullhorn"></i> Category</th>
@@ -70,9 +102,30 @@
 
 <script type="text/javascript">
 
+    var EDIT_ID = 0;
+
     function show_add_new() {
-        var show_add_box = document.querySelector(".add_new");
+        var show_edit_box = document.querySelector(".add_new");
         var category_input = document.querySelector("#category");
+
+        if (show_edit_box.classList.contains('hide')) {
+            show_edit_box.classList.remove('hide');
+            category_input.focus();
+        } else {
+            show_edit_box.classList.add('hide');
+            category_input.value = "";
+        }
+    }
+
+    function show_edit_category(id, category, e) {
+
+        EDIT_ID = id;
+        var show_add_box = document.querySelector(".edit_category");
+        // show_add_box.style.left = (e.clientX - 700) + "px";
+        show_add_box.style.top = (e.clientY - 140) + "px";
+
+        var category_input = document.querySelector("#category_edit");
+        category_input.value = category;
 
         if (show_add_box.classList.contains('hide')) {
             show_add_box.classList.remove('hide');
@@ -85,6 +138,7 @@
 
     function collect_data(e) {
         var category_input = document.querySelector("#category");
+      
         if (category_input.value.trim() == "" || !isNaN(category_input.value.trim())) {
             // alert("vui long nhap du lieu");
         }
@@ -96,10 +150,23 @@
         });
     }
 
+    function collect_edit_data(e) {
+        var category_input = document.querySelector("#category_edit");
+        if (category_input.value.trim() == "" || !isNaN(category_input.value.trim())) {
+           // alert("vui long nhap du lieu");
+        }
+
+        var data = category_input.value.trim();
+        send_data({
+            id: EDIT_ID,
+            category: data,
+            data_type: 'edit_category'
+        });
+    }
+
     function send_data(data = {}) {
 
         var ajax = new XMLHttpRequest();
-
         ajax.addEventListener('readystatechange', function () {
             if (ajax.readyState == 4 && ajax.status == 200) {
                 handle_result(ajax.responseText);
@@ -111,8 +178,6 @@
     }
 
     function handle_result(result) {
-
-      
 
         if (result != "") {
             var obj = JSON.parse(result);
@@ -130,11 +195,26 @@
                     } else {
                         alert(obj.message);
                     }
-                } else if (obj.data_type == "disable_row") {
+                } else if (obj.data_type == "edit_category") {
+
+                
+                    show_edit_category(0,'', false);
+
                     var table_body = document.querySelector('#table_body');
                     table_body.innerHTML = obj.data;
+                  
+
+                } else if (obj.data_type == "disable_row") {
+
+                    var table_body = document.querySelector('#table_body');
+                    table_body.innerHTML = obj.data;
+
                 } else if (obj.data_type == "delete_row") {
+
+                    var table_body = document.querySelector('#table_body');
+                    table_body.innerHTML = obj.data;
                     alert(obj.message);
+
                 }
 
             }
