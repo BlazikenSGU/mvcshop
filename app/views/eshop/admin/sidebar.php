@@ -30,9 +30,8 @@
                     <span>Products</span>
                 </a>
                 <ul class="sub">
-                    <li><a href="<?= ROOT ?>admin/products/add">Add</a></li>
-                    <li><a href="<?= ROOT ?>admin/products/edit">Edit</a></li>
-                    <li><a href="<?= ROOT ?>admin/products/delete">Delete</a></li>
+                    <li><a href="<?= ROOT ?>admin/products">View Product</a></li>
+                  
                 </ul>
             </li>
 
@@ -43,9 +42,7 @@
                 </a>
                 <ul class="sub">
                     <li><a href="<?= ROOT ?>admin/categories">View</a></li>
-                    <li><a href="<?= ROOT ?>admin/categories/add">Add</a></li>
-                    <li><a href="<?= ROOT ?>admin/categories/edit">Edit</a></li>
-                    <li><a href="<?= ROOT ?>admin/categories/delete">Delete</a></li>
+                
                 </ul>
             </li>
 

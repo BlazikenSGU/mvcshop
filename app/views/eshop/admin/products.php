@@ -10,7 +10,7 @@
         padding: 6px;
     }
 
-    .edit_category {
+    .edit_product {
         width: 500px;
         height: 300px;
         background-color: #cecccc;
@@ -32,18 +32,17 @@
     <div class="col-md-12">
         <div class="content-panel">
             <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> Danh muc san pham </h4>
-                <button class="btn btn-primary btn-xs" onclick="show_add_new(event)"><i class="fa fa-plus"></i> Them
-                    danh muc</button>
+                <h4><i class="fa fa-angle-right"></i> San pham </h4>
+                <button class="btn btn-primary btn-xs" onclick="show_add_new(event)"><i class="fa fa-plus"></i> Them san pham</button>
 
                 <div class="add_new hide">
 
-                    <h4 class="mb"><i class="fa fa-angle-right"></i> Them danh muc</h4>
+                    <h4 class="mb"><i class="fa fa-angle-right"></i> Them San pham</h4>
                     <form class="form-horizontal style-form" method="post">
                         <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Ten danh muc</label>
+                            <label class="col-sm-2 col-sm-2 control-label">Ten san pham</label>
                             <div class="col-sm-10">
-                                <input id="category" name="category" type="text" class="form-control" autofocus>
+                                <input id="product" name="product" type="text" class="form-control" autofocus>
                             </div>
                         </div>
                         <button class="btn btn-warning" onclick="show_add_new(event)"
@@ -55,18 +54,18 @@
                     <br>
 
                 </div>
-                <!-- edit category -->
-                <div class="edit_category hide">
+                <!-- edit product -->
+                <div class="edit_product hide">
 
                     <h4 class="mb"><i class="fa fa-angle-right"></i> Edit danh muc</h4>
                     <form class="form-horizontal style-form" method="post">
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Ten danh muc</label>
                             <div class="col-sm-10">
-                                <input id="category_edit" name="category" type="text" class="form-control" autofocus>
+                                <input id="product_edit" name="product" type="text" class="form-control" autofocus>
                             </div>
                         </div>
-                        <button class="btn btn-warning" onclick="show_edit_category(0,'', event)"
+                        <button class="btn btn-warning" onclick="show_edit_product(0,'', event)"
                             style="position: absolute; bottom: 20px; left: 20px;">Cancel</button>
                         <button class="btn btn-primary" onclick="collect_edit_data(event)"
                             style="position: absolute; bottom: 20px; right: 20px;">Luu</button>
@@ -82,7 +81,7 @@
 
                 <thead>
                     <tr>
-                        <th><i class="fa fa-bullhorn"></i> Category</th>
+                        <th><i class="fa fa-bullhorn"></i> Product</th>
                         <th><i class=" fa fa-edit"></i> Status</th>
                         <th><i class=" fa fa-edit"></i> Action</th>
                     </tr>
@@ -106,61 +105,61 @@
 
     function show_add_new() {
         var show_edit_box = document.querySelector(".add_new");
-        var category_input = document.querySelector("#category");
+        var product_input = document.querySelector("#product");
 
         if (show_edit_box.classList.contains('hide')) {
             show_edit_box.classList.remove('hide');
-            category_input.focus();
+            product_input.focus();
         } else {
             show_edit_box.classList.add('hide');
-            category_input.value = "";
+            product_input.value = "";
         }
     }
 
-    function show_edit_category(id, category, e) {
+    function show_edit_product(id, product, e) {
 
         EDIT_ID = id;
-        var show_add_box = document.querySelector(".edit_category");
+        var show_add_box = document.querySelector(".edit_product");
         // show_add_box.style.left = (e.clientX - 700) + "px";
         show_add_box.style.top = (e.clientY - 140) + "px";
 
-        var category_input = document.querySelector("#category_edit");
-        category_input.value = category;
+        var product_input = document.querySelector("#product_edit");
+        product_input.value = product;
 
         if (show_add_box.classList.contains('hide')) {
             show_add_box.classList.remove('hide');
-            category_input.focus();
+            product_input.focus();
         } else {
             show_add_box.classList.add('hide');
-            category_input.value = "";
+            product_input.value = "";
         }
     }
 
     function collect_data(e) {
-        var category_input = document.querySelector("#category");
+        var product_input = document.querySelector("#product");
       
-        if (category_input.value.trim() == "" || !isNaN(category_input.value.trim())) {
-            // alert("vui long nhap du lieu");
+        if (product_input.value.trim() == "" || !isNaN(product_input.value.trim())) {
+            alert("vui long nhap du lieu");
         }
 
-        var data = category_input.value.trim();
+        var data = product_input.value.trim();
         send_data({
             data: data,
-            data_type: 'add_category'
+            data_type: 'add_product'
         });
     }
 
     function collect_edit_data(e) {
-        var category_input = document.querySelector("#category_edit");
-        if (category_input.value.trim() == "" || !isNaN(category_input.value.trim())) {
+        var product_input = document.querySelector("#product_edit");
+        if (product_input.value.trim() == "" || !isNaN(product_input.value.trim())) {
            // alert("vui long nhap du lieu");
         }
 
-        var data = category_input.value.trim();
+        var data = product_input.value.trim();
         send_data({
             id: EDIT_ID,
-            category: data,
-            data_type: 'edit_category'
+            product: data,
+            data_type: 'edit_product'
         });
     }
 
@@ -173,7 +172,7 @@
             }
         })
 
-        ajax.open("POST", "<?= ROOT ?>ajax_category", true);
+        ajax.open("POST", "<?= ROOT ?>ajax_product", true);
         ajax.send(JSON.stringify(data));
     }
 
@@ -195,10 +194,10 @@
                     } else {
                         alert(obj.message);
                     }
-                } else if (obj.data_type == "edit_category") {
+                } else if (obj.data_type == "edit_product") {
 
                 
-                    show_edit_category(0,'', false);
+                    show_edit_product(0,'', false);
 
                     var table_body = document.querySelector('#table_body');
                     table_body.innerHTML = obj.data;
